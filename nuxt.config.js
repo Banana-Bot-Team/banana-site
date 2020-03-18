@@ -27,7 +27,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/element-ui'],
+  plugins: ['@/plugins/element-ui', '@/plugins/base64', '@plugins/vue-i18n'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -53,12 +53,15 @@ module.exports = {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: `http://localhost:${process.env.PORT || 3000}/api/v1`,
+    browserBaseURL: '/api/v1'
+  },
   /*
    ** Build configuration
    */
   build: {
-    transpile: [/^element-ui/],
+    transpile: [/^element-ui/, /typed-vuex/],
     /*
      ** You can extend webpack config here
      */
@@ -75,4 +78,4 @@ module.exports = {
   /**
    * Vue Config
    */
-}
+};
