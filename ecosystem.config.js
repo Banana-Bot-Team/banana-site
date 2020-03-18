@@ -4,6 +4,7 @@ module.exports = {
       name: 'banana-website',
       script: './server/index.js',
       watch: ['server/**/*.js', '.env', 'nuxt.config.js'],
+      node_args: '-r esm',
       env: {
         NODE_ENV: 'development'
       },
