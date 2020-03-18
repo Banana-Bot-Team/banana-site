@@ -1,18 +1,18 @@
-import Vue from 'vue'
-import { accessorType } from '~/store'
+import Vue from 'vue';
+import { accessorType } from '~/store';
 
 declare module '*.vue' {
-  export default Vue
+  export default Vue;
 }
 
 declare module '@nuxt/types' {
   interface NuxtAppOptions {
-    $accessor: typeof accessorType
+    $accessor: typeof accessorType;
   }
 }
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $accessor: typeof accessorType
+    $accessor: typeof accessorType;
   }
 }
