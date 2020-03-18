@@ -6,12 +6,14 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.ts --watch server",
+    "prebuild": "yarn clean",
     "build": "nuxt-ts build",
     "postbuild": "tsc -p ./server/tsconfig.json --noEmit false",
     "start": "cross-env NODE_ENV=production ts-node --project 'server/tsconfig.json' server/index.ts",
     "generate": "nuxt-ts generate",
     "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore .",
-    "update": "git pull && npm run build"
+    "update": "git pull && npm run build",
+    "clean": "cd ./server && find . -name \"*.js\" -type f -delete && find . -name \"*.map\" -type f -delete && cd .."
   },
   "dependencies": {
     "@climba03003/mongodb-utilities": "^1.0.0",
