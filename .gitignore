@@ -88,3 +88,7 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# Server Build output
+server/**/*.js
+server/**/*.map
