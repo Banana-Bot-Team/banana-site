@@ -32,10 +32,11 @@ export const actions = actionTree(
   {
     async fetchLocal({ commit, state }) {
       const data = JSON.parse(String(localStorage.getItem('banana_checklist')));
+      const isExist = !!data;
       const checklist = new Checklist(data);
       commit('SET_CHECKLIST', checklist);
 
-      if (checklist.__v < Checklist.VERSION) {
+      if (checklist.__v < Checklist.VERSION && isExist) {
         // Backward Capability
         const result = await this.$axios.get('/characters', {
           params: {
