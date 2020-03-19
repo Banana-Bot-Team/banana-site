@@ -125,14 +125,33 @@ export default Vue.extend({
       this.$message.success('Data save successfully.');
     },
     async handleShare() {
-      const textarea = document.createElement('textarea');
-      document.body.append(textarea);
+      const clipboard = document.createElement('textarea');
+      document.body.appendChild(clipboard);
       const path = await this.$accessor.checklist.share();
-      textarea.value = `${window.location.origin}${path}`;
-      textarea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textarea);
-      this.$message.success('URL copied to clipboard');
+      clipboard.readOnly = true;
+      clipboard.contentEditable = 'true';
+      clipboard.value = `${window.location.origin}${path}`;
+      const range = document.createRange();
+      range.selectNodeContents(clipboard);
+      const selection = document.getSelection() as Selection;
+      selection.removeAllRanges();
+      selection.addRange(range);
+      if (clipboard.nodeName === 'TEXTAREA' || clipboard.nodeName === 'INPUT') {
+        clipboard.select();
+      }
+      if (
+        clipboard.setSelectionRange &&
+        navigator.userAgent.match(/ipad|ipod|iphone/i)
+      ) {
+        clipboard.setSelectionRange(0, 999999);
+      }
+      const success = document.execCommand('copy');
+      clipboard.remove();
+      if (success) {
+        this.$message.success(`URL copied to clipboard`);
+      } else {
+        this.$message.error(`URL cannot copy to clipboard`);
+      }
     },
     async handleCheckAll() {
       const all = this.characters.reduce(function (checklist, character) {
@@ -181,6 +200,10 @@ export default Vue.extend({
   justify-content: center;
   margin-top: 16px;
   margin-bottom: 16px;
+
+  .clipboard {
+    visibility: hidden;
+  }
 
   .el-card {
     max-width: 1024px;
