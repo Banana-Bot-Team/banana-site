@@ -147,7 +147,7 @@ export default Vue.extend({
     count(rarity?: number) {
       let list = Object.entries(this.checklist.data).filter((o) => o[1]);
       if (rarity) {
-        list = list.filter(([key]) => String(key).includes(String(rarity)));
+        list = list.filter(([key]) => String(key[0]) === String(rarity));
       }
       return list.length;
     },
