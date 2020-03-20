@@ -1,6 +1,8 @@
 <template>
-  <div :class="`container e${character.element}`">
-    <wf-character-info :character="character"></wf-character-info>
+  <div class="container">
+    <el-card :class="`e${character.element}`">
+      <wf-character-info :character="character"></wf-character-info>
+    </el-card>
   </div>
 </template>
 
@@ -52,7 +54,7 @@ export default Vue.extend({
   }
 
   &.e5 {
-    background-color: rgba(171, 178, 131, $alpha);
+    #{$property}: rgba(171, 178, 131, $alpha);
   }
 
   &.e6 {
@@ -64,6 +66,8 @@ export default Vue.extend({
   height: 100%;
   min-height: 100vh;
 
-  @include element-color('background-color', 0.3);
+  .el-card {
+    @include element-color('background-color', 0.3);
+  }
 }
 </style>

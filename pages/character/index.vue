@@ -18,8 +18,12 @@
     :hide-p-special="!shouldShow('profession', 4)"
     :hide-p-assist="!shouldShow('profession', 5)"
   >
-    <wf-characters-filter :form="filter"></wf-characters-filter>
-    <wf-characters-table :characters="characters"></wf-characters-table>
+    <el-card>
+      <wf-characters-filter :form="filter"></wf-characters-filter>
+    </el-card>
+    <el-card>
+      <wf-characters-table :characters="characters"></wf-characters-table>
+    </el-card>
   </div>
 </template>
 
@@ -107,5 +111,9 @@ export default Vue.extend({
   @include hidden-table-row('hide-p-melee', 'p3');
   @include hidden-table-row('hide-p-special', 'p4');
   @include hidden-table-row('hide-p-assist', 'p5');
+
+  .el-card:nth-child(n + 2) {
+    margin-top: 16px;
+  }
 }
 </style>

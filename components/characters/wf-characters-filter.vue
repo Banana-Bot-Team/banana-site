@@ -1,56 +1,54 @@
 <template>
   <div class="wf-characters-filter">
-    <el-card>
-      <el-form label-width="120px" :label-position="'left'">
-        <el-form-item label="星數">
-          <div class="rarity">
-            <el-checkbox-group
-              v-model="form.rarity"
-              :disabled="disabled.rarity"
-              @change="handleRarityChange"
-            >
-              <el-checkbox-button
-                v-for="rarity in rarities"
-                :key="rarity"
-                :label="rarity"
-              >
-                {{ rarity }}
-              </el-checkbox-button>
-            </el-checkbox-group>
-          </div>
-        </el-form-item>
-        <el-form-item label="属性">
+    <el-form label-width="120px" :label-position="'left'">
+      <el-form-item label="星數">
+        <div class="rarity">
           <el-checkbox-group
-            v-model="form.element"
-            :disabled="disabled.element"
-            @change="handleElementChange"
+            v-model="form.rarity"
+            :disabled="disabled.rarity"
+            @change="handleRarityChange"
           >
             <el-checkbox-button
-              v-for="element in elements"
-              :key="$t(element.label)"
-              :label="element.value"
+              v-for="rarity in rarities"
+              :key="rarity"
+              :label="rarity"
             >
-              {{ $t(element.label) }}
+              {{ rarity }}
             </el-checkbox-button>
           </el-checkbox-group>
-        </el-form-item>
-        <el-form-item label="種類">
-          <el-checkbox-group
-            v-model="form.profession"
-            :disabled="disabled.profession"
-            @change="handleProfessionChange"
+        </div>
+      </el-form-item>
+      <el-form-item label="属性">
+        <el-checkbox-group
+          v-model="form.element"
+          :disabled="disabled.element"
+          @change="handleElementChange"
+        >
+          <el-checkbox-button
+            v-for="element in elements"
+            :key="$t(element.label)"
+            :label="element.value"
           >
-            <el-checkbox-button
-              v-for="profession in professions"
-              :key="$t(profession.label)"
-              :label="profession.value"
-            >
-              {{ $t(profession.label) }}
-            </el-checkbox-button>
-          </el-checkbox-group>
-        </el-form-item>
-      </el-form>
-    </el-card>
+            {{ $t(element.label) }}
+          </el-checkbox-button>
+        </el-checkbox-group>
+      </el-form-item>
+      <el-form-item label="種類">
+        <el-checkbox-group
+          v-model="form.profession"
+          :disabled="disabled.profession"
+          @change="handleProfessionChange"
+        >
+          <el-checkbox-button
+            v-for="profession in professions"
+            :key="$t(profession.label)"
+            :label="profession.value"
+          >
+            {{ $t(profession.label) }}
+          </el-checkbox-button>
+        </el-checkbox-group>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
