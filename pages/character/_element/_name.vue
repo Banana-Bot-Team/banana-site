@@ -64,7 +64,6 @@ export default Vue.extend({
 .container {
   width: 100%;
   height: 100%;
-  min-height: 100vh;
 
   .el-card {
     @include element-color('background-color', 0.3);
