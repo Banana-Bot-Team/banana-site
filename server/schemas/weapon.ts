@@ -97,7 +97,20 @@ export function DeserializeWeaponElement(
   }
 }
 
+export const WeaponElementArray: Array<WeaponElement> = [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+].map((e) => DeserializeWeaponElement(e));
+
 export type WeaponRarity = 1 | 2 | 3 | 4 | 5;
+
+export const WeaponRarityArray: Array<WeaponRarity> = [1, 2, 3, 4, 5];
 
 export type WeaponMultiply = {
   soul: Array<number>;

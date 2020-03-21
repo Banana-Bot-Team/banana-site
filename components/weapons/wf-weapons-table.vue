@@ -1,7 +1,7 @@
 <template>
-  <div class="wf-characters-table">
+  <div class="wf-weapons-table">
     <el-table
-      :data="characters"
+      :data="weapons"
       style="width: 100%;"
       :row-class-name="tableRowClassName"
     >
@@ -39,45 +39,6 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="profession"
-        :label="$t('profession')"
-        width="80"
-        align="center"
-        header-align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="races"
-        :label="$t('races')"
-        width="120"
-        align="center"
-        header-align="center"
-      >
-        <template slot-scope="scope">{{
-          scope.row.races.map((race) => race.trim()).join(' / ')
-        }}</template>
-      </el-table-column>
-      <el-table-column
-        prop="cv"
-        :label="$t('cv')"
-        width="120"
-        align="center"
-        header-align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="hp"
-        :label="$t('hp')"
-        width="80"
-        align="center"
-        header-align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="atk"
-        :label="$t('atk')"
-        width="80"
-        align="center"
-        header-align="center"
-      ></el-table-column>
     </el-table>
   </div>
 </template>
@@ -85,29 +46,29 @@
 <script lang="ts">
 import Vue, { PropOptions } from 'vue';
 import {
-  Character,
-  SerializeCharacterElement,
-  DeserializeCharacterElement
-} from '@/server/schemas/character';
+  DeserializeWeaponElement,
+  Weapon,
+  SerializeWeaponElement
+} from '@/server/schemas/weapon';
 import WFRarity from '@/components/icons/wf-rarity.vue';
 
 export default Vue.extend({
   components: { 'wf-rarity': WFRarity },
   props: {
-    characters: {
+    weapons: {
       type: Array,
       default: () => []
-    } as PropOptions<Array<Character>>
+    } as PropOptions<Array<Weapon>>
   },
   methods: {
-    tableRowClassName(scoped: { row: Character; rowIndex: number }) {
-      return `r${scoped.row.rarity} e${scoped.row.element} p${scoped.row.profession}`;
+    tableRowClassName(scoped: { row: Weapon; rowIndex: number }) {
+      return `r${scoped.row.rarity} e${scoped.row.element}`;
     },
-    tableRowHref(scoped: { row: Character; rowIndex: number }) {
-      const element = DeserializeCharacterElement(
-        SerializeCharacterElement(scoped.row.element)
+    tableRowHref(scoped: { row: Weapon; rowIndex: number }) {
+      const element = DeserializeWeaponElement(
+        SerializeWeaponElement(scoped.row.element)
       );
-      return `/character/${element}/${scoped.row.name}`;
+      return `/weapon/${element}/${scoped.row.name}`;
     }
   }
 });
@@ -133,6 +94,8 @@ export default Vue.extend({
   @include table-row-style(83, 151, 34, 'e4');
   @include table-row-style(171, 178, 131, 'e5');
   @include table-row-style(63, 40, 67, 'e6');
+  @include table-row-style(0, 0, 0, 'e7');
+  @include table-row-style(128, 128, 128, 'e8');
 }
 
 .col-name {

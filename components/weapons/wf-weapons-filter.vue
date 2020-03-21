@@ -1,5 +1,5 @@
 <template>
-  <div class="wf-characters-filter">
+  <div class="wf-weapons-filter">
     <el-form label-width="120px" :label-position="'left'">
       <el-form-item :label="$t('star')">
         <div class="rarity">
@@ -33,21 +33,6 @@
           </el-checkbox-button>
         </el-checkbox-group>
       </el-form-item>
-      <el-form-item :label="$t('profession')">
-        <el-checkbox-group
-          v-model="form.profession"
-          :disabled="disabled.profession"
-          @change="handleProfessionChange"
-        >
-          <el-checkbox-button
-            v-for="profession in professions"
-            :key="$t(profession.label)"
-            :label="profession.value"
-          >
-            {{ $t(profession.label) }}
-          </el-checkbox-button>
-        </el-checkbox-group>
-      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -55,16 +40,14 @@
 <script lang="ts">
 import Vue, { PropOptions } from 'vue';
 import {
-  CharacterElementArray,
-  SerializeCharacterElement,
-  DeserializeCharacterElement,
-  CharacterProfessionArray,
-  SerializeCharacterProfession,
-  DeserializeCharacterProfession,
-  CharacterRarityArray,
-  CharacterRarity
-} from '@/server/schemas/character';
-import { CharacterFilter } from '@/store/character';
+  WeaponRarityArray,
+  WeaponElementArray,
+  SerializeWeaponElement,
+  DeserializeWeaponElement,
+  WeaponRarity
+} from '@/server/schemas/weapon';
+import { WeaponFilter } from '@/store/weapon';
+
 export default Vue.extend({
   props: {
     disabled: {
@@ -72,13 +55,12 @@ export default Vue.extend({
       default() {
         return {
           rarity: false,
-          element: false,
-          profession: false
+          element: false
         };
       }
     } as PropOptions<
       {
-        [key in keyof CharacterFilter]: boolean;
+        [key in keyof WeaponFilter]: boolean;
       }
     >,
     form: {
@@ -86,52 +68,35 @@ export default Vue.extend({
       default() {
         return {
           rarity: [],
-          element: [],
-          profession: []
+          element: []
         };
       }
-    } as PropOptions<CharacterFilter>
+    } as PropOptions<WeaponFilter>
   },
   data() {
     return {
-      elements: CharacterElementArray.map(function (s) {
-        const value = SerializeCharacterElement(s);
+      elements: WeaponElementArray.map(function (s) {
+        const value = SerializeWeaponElement(s);
         return {
           value,
-          label: `element.${DeserializeCharacterElement(
+          label: `element.${DeserializeWeaponElement(
             value,
             'en'
           ).toLowerCase()}`
         };
       }),
-      professions: CharacterProfessionArray.map(function (s) {
-        const value = SerializeCharacterProfession(s);
-        return {
-          value,
-          label: `profession.${DeserializeCharacterProfession(
-            value,
-            'en'
-          ).toLowerCase()}`
-        };
-      }),
-      rarities: CharacterRarityArray
+      rarities: WeaponRarityArray
     };
   },
   methods: {
     handleElementChange(value: Array<number>) {
-      this.$accessor.character.UPDATE_FILTER({
+      this.$accessor.weapon.UPDATE_FILTER({
         element: value
       });
       this.$root.$emit('filter-changed');
     },
-    handleProfessionChange(value: Array<number>) {
-      this.$accessor.character.UPDATE_FILTER({
-        profession: value
-      });
-      this.$root.$emit('filter-changed');
-    },
-    handleRarityChange(value: Array<CharacterRarity>) {
-      this.$accessor.character.UPDATE_FILTER({
+    handleRarityChange(value: Array<WeaponRarity>) {
+      this.$accessor.weapon.UPDATE_FILTER({
         rarity: value
       });
       this.$root.$emit('filter-changed');

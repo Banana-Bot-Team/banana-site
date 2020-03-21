@@ -6,7 +6,10 @@ import {
   CharacterElement,
   CharacterProfession,
   SerializeCharacterElement,
-  SerializeCharacterProfession
+  SerializeCharacterProfession,
+  CharacterElementArray,
+  CharacterProfessionArray,
+  CharacterRarityArray
 } from '@/server/schemas/character';
 
 export type CharacterFilter = Partial<{
@@ -27,13 +30,13 @@ const def = {
   data: <Array<Character>>[],
   filter: <CharacterFilter>{
     language: 'cn',
-    element: ['火', '水', '雷', '風', '暗', '光'].map((s) =>
+    element: CharacterElementArray.map((s) =>
       SerializeCharacterElement(s as CharacterElement)
     ),
-    profession: ['射撃', '剣士', '特殊', '格闘', '補助'].map((s) =>
+    profession: CharacterProfessionArray.map((s) =>
       SerializeCharacterProfession(s as CharacterProfession)
     ),
-    rarity: [1, 2, 3, 4, 5]
+    rarity: CharacterRarityArray
   },
   sort: <CharacterSort>{
     element: 1,

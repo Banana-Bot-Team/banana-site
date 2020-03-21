@@ -1,65 +1,62 @@
 <template>
   <div
-    id="page-character"
+    id="page-weapon"
     :hide-e-fire="!shouldShow('element', 1)"
     :hide-e-water="!shouldShow('element', 2)"
     :hide-e-thunder="!shouldShow('element', 3)"
     :hide-e-wind="!shouldShow('element', 4)"
     :hide-e-light="!shouldShow('element', 5)"
     :hide-e-dark="!shouldShow('element', 6)"
+    :hide-e-all="!shouldShow('element', 7)"
+    :hide-e-none="!shouldShow('element', 8)"
     :hide-r-1="!shouldShow('rarity', 1)"
     :hide-r-2="!shouldShow('rarity', 2)"
     :hide-r-3="!shouldShow('rarity', 3)"
     :hide-r-4="!shouldShow('rarity', 4)"
     :hide-r-5="!shouldShow('rarity', 5)"
-    :hide-p-sword="!shouldShow('profession', 1)"
-    :hide-p-archer="!shouldShow('profession', 2)"
-    :hide-p-melee="!shouldShow('profession', 3)"
-    :hide-p-special="!shouldShow('profession', 4)"
-    :hide-p-assist="!shouldShow('profession', 5)"
   >
     <el-card>
-      <wf-characters-filter :form="filter"></wf-characters-filter>
+      <wf-weapons-filter :form="filter"></wf-weapons-filter>
     </el-card>
     <el-card>
-      <wf-characters-table :characters="characters"></wf-characters-table>
+      <wf-weapons-table :weapons="weapons"></wf-weapons-table>
     </el-card>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import table from '@/components/characters/wf-characters-table.vue';
-import filter from '@/components/characters/wf-characters-filter.vue';
-import { CharacterFilter } from '@/store/character';
-import { Character } from '@/server/schemas/character';
+import table from '@/components/weapons/wf-weapons-table.vue';
+import filter from '@/components/weapons/wf-weapons-filter.vue';
+import { Weapon } from '@/server/schemas/weapon';
+import { WeaponFilter } from '@/store/weapon';
 
 type VueData = {
-  filter: CharacterFilter;
-  characters: Array<Character>;
+  filter: WeaponFilter;
+  weapons: Array<Weapon>;
 };
 
 export default Vue.extend({
   components: {
-    'wf-characters-table': table,
-    'wf-characters-filter': filter
+    'wf-weapons-table': table,
+    'wf-weapons-filter': filter
   },
   async asyncData(context): Promise<VueData> {
     // Reset Filter
-    await context.app.$accessor.character.SET_FILTER();
-    await context.app.$accessor.character.fetch();
-    await context.app.$accessor.character.UPDATE_FILTER({
+    await context.app.$accessor.weapon.SET_FILTER();
+    await context.app.$accessor.weapon.fetch();
+    await context.app.$accessor.weapon.UPDATE_FILTER({
       element: []
     });
     return {
-      filter: context.app.$accessor.character.filter,
-      characters: context.app.$accessor.character.data
+      filter: context.app.$accessor.weapon.filter,
+      weapons: context.app.$accessor.weapon.data
     };
   },
   data(): VueData {
     return {
       filter: {},
-      characters: []
+      weapons: []
     };
   },
   mounted() {
@@ -71,9 +68,9 @@ export default Vue.extend({
   },
   methods: {
     handleFilterChanged() {
-      this.filter = Object.assign({}, this.$accessor.character.filter);
+      this.filter = Object.assign({}, this.$accessor.weapon.filter);
     },
-    shouldShow(path: 'rarity' | 'profession' | 'element', index: number) {
+    shouldShow(path: 'rarity' | 'element', index: number) {
       return !!this.filter[path]?.includes(index as never);
     }
   }
@@ -91,25 +88,15 @@ export default Vue.extend({
   }
 }
 
-#page-character {
+#page-weapon {
   @include hidden-table-row('hide-e-fire', 'e1');
   @include hidden-table-row('hide-e-water', 'e2');
   @include hidden-table-row('hide-e-thunder', 'e3');
   @include hidden-table-row('hide-e-wind', 'e4');
   @include hidden-table-row('hide-e-light', 'e5');
   @include hidden-table-row('hide-e-dark', 'e6');
-
-  @include hidden-table-row('hide-r-1', 'r1');
-  @include hidden-table-row('hide-r-2', 'r2');
-  @include hidden-table-row('hide-r-3', 'r3');
-  @include hidden-table-row('hide-r-4', 'r4');
-  @include hidden-table-row('hide-r-5', 'r5');
-
-  @include hidden-table-row('hide-p-sword', 'p1');
-  @include hidden-table-row('hide-p-archer', 'p2');
-  @include hidden-table-row('hide-p-melee', 'p3');
-  @include hidden-table-row('hide-p-special', 'p4');
-  @include hidden-table-row('hide-p-assist', 'p5');
+  @include hidden-table-row('hide-e-all', 'e7');
+  @include hidden-table-row('hide-e-none', 'e8');
 
   .el-card:nth-child(n + 2) {
     margin-top: 16px;
