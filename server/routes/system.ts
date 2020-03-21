@@ -28,7 +28,7 @@ router.prefix('/system').post('/init', async function (ctx, _next) {
           {
             name: character.name,
             element: SerializeCharacterElement(character.element),
-            language: 'jp'
+            language: character.language
           },
           character.toJSON()
         );
@@ -51,7 +51,7 @@ router.prefix('/system').post('/init', async function (ctx, _next) {
           {
             name: weapon.name,
             element: SerializeWeaponElement(weapon.element),
-            language: 'jp'
+            language: weapon.language
           },
           weapon.toJSON()
         );

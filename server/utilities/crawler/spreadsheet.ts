@@ -149,7 +149,7 @@ class CharacterParser {
     };
 
     // Line 7
-    const nameField = this.findText(7, '技能');
+    const nameField = this.findText(7, '技能', undefined, false);
     this.character.skill = {
       name: this.serializeHTML(nameField.split('<br>')[0]),
       description: this.findText(7, '技能', 2),
