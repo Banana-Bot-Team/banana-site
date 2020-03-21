@@ -46,7 +46,9 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    // Doc: https://github.com/nuxt-community/google-gtag
+    '@nuxtjs/google-gtag'
   ],
   /*
    ** Axios module configuration
@@ -73,8 +75,18 @@ module.exports = {
     typeCheck: {
       eslint: true
     }
-  }
+  },
   /**
    * Vue Config
    */
+  /**
+   * Gtag
+   */
+  'google-gtag': {
+    id: 'UA-161555517-1',
+    config: {
+      anonymize_ip: true, // anonymize IP
+      send_page_view: false // might be necessary to avoid duplicated page track on page reload
+    }
+  }
 };
