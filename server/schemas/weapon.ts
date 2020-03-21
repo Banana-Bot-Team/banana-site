@@ -54,10 +54,6 @@ export function SerializeWeaponElement(
     case '全':
     case 'ALL':
       return 7;
-    case 8:
-    case '無':
-    case 'NONE':
-      return 8;
     default:
       return 0;
   }
@@ -88,12 +84,9 @@ export function DeserializeWeaponElement(
       if (language === 'cn') return '暗';
       return '闇';
     case 7:
+    default:
       if (language === 'en') return 'ALL';
       return '全';
-    case 8:
-    default:
-      if (language === 'en') return 'NONE';
-      return '無';
   }
 }
 
@@ -104,8 +97,7 @@ export const WeaponElementArray: Array<WeaponElement> = [
   4,
   5,
   6,
-  7,
-  8
+  7
 ].map((e) => DeserializeWeaponElement(e));
 
 export type WeaponRarity = 1 | 2 | 3 | 4 | 5;

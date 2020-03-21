@@ -8,7 +8,6 @@
     :hide-e-light="!shouldShow('element', 5)"
     :hide-e-dark="!shouldShow('element', 6)"
     :hide-e-all="!shouldShow('element', 7)"
-    :hide-e-none="!shouldShow('element', 8)"
     :hide-r-1="!shouldShow('rarity', 1)"
     :hide-r-2="!shouldShow('rarity', 2)"
     :hide-r-3="!shouldShow('rarity', 3)"
@@ -96,7 +95,6 @@ export default Vue.extend({
   @include hidden-table-row('hide-e-light', 'e5');
   @include hidden-table-row('hide-e-dark', 'e6');
   @include hidden-table-row('hide-e-all', 'e7');
-  @include hidden-table-row('hide-e-none', 'e8');
 
   .el-card:nth-child(n + 2) {
     margin-top: 16px;

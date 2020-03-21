@@ -95,7 +95,6 @@ export default Vue.extend({
   @include table-row-style(171, 178, 131, 'e5');
   @include table-row-style(63, 40, 67, 'e6');
   @include table-row-style(0, 0, 0, 'e7');
-  @include table-row-style(128, 128, 128, 'e8');
 }
 
 .col-name {
