@@ -7,7 +7,12 @@ import {
   CharacterElement,
   CharacterGender
 } from '../../schemas/character';
-import { Weapon, WeaponElement, WeaponMultiply } from '../../schemas/weapon';
+import {
+  Weapon,
+  WeaponElement,
+  WeaponMultiply,
+  WeaponRarity
+} from '../../schemas/weapon';
 
 const fallback = {
   character: [
@@ -69,38 +74,57 @@ export const character = {
   fetch: fetchCharacter
 };
 
+type WeaponList = {
+  [key: number]: Array<string>;
+};
+
 async function fetchWeaponList(
   url: string = fallback.weapon
-): Promise<Array<string>> {
+): Promise<WeaponList> {
   const { data: html } = await axios.get(url);
 
   const { window } = new JSDOM(html);
   const document = window.document;
 
-  const doms = Array.from(document.querySelectorAll('.world_fp_weapons tr a'));
+  const tables = Array.from(document.querySelectorAll('.world_fp_weapons'));
 
-  return doms.map(function (dom: Element) {
-    return String(dom.getAttribute('href'));
-  });
+  return tables.reduce(function (list, table, index) {
+    const doms = Array.from(table.querySelectorAll('tr a'));
+    const urls = doms.map(function (dom: Element) {
+      return String(dom.getAttribute('href'));
+    });
+    list[(index - 5) * -1] = urls;
+    return list;
+  }, <WeaponList>{});
 }
 
 async function fetchWeapon(
   url: string = fallback.weapon
 ): Promise<Array<Weapon>> {
   const list = await fetchWeaponList(url);
+  let result: Array<Weapon> = [];
 
-  return Promise.all(
-    list.map(async function (url) {
-      const { data: html } = await axios.get(url);
+  for (let i = 5; i > 0; i--) {
+    const urls = list[i];
+    const weapons = await Promise.all(
+      urls.map(async function (url) {
+        const { data: html } = await axios.get(url);
 
-      const { window } = new JSDOM(html);
-      const document = window.document;
+        const { window } = new JSDOM(html);
+        const document = window.document;
 
-      const p = new WeaponParser(document);
+        const p = new WeaponParser(document);
 
-      return p.weapon;
-    })
-  );
+        p.weapon.rarity = i as WeaponRarity;
+
+        return p.weapon;
+      })
+    );
+
+    result = result.concat(weapons);
+  }
+
+  return result;
 }
 
 export const weapon = {
@@ -223,7 +247,7 @@ class CharacterParser extends BaseParser {
     this.character.gender = this.findTableRow('性別') as CharacterGender;
   }
 
-  // Fix some erro
+  // Fix some error
   private fix(): void {
     // Name fix
     if (this.character.name === 'C・F・キセキ') {
@@ -245,6 +269,7 @@ class WeaponParser extends BaseParser {
   constructor(dom: Element | Document) {
     super(dom);
     this.parse();
+    this.fix();
   }
 
   private parse(): void {
@@ -299,6 +324,14 @@ class WeaponParser extends BaseParser {
       this.weapon.effect = this.findTableRow('最大効果', true);
 
     this.weapon.multiply = this.computeMultiply();
+  }
+
+  // Fix some error
+  private fix(): void {
+    // Element fix
+    if (this.weapon.name === '無銘の弓') {
+      this.weapon.element = '全';
+    }
   }
 
   computeMultiply(): WeaponMultiply {
