@@ -29,5 +29,5 @@
   "leaderbuff": "隊長特性",
   "skill": "技能",
   "cost": "COST",
-  "ability": "能力 {0}"
+  "ability": "能力 {n}"
 }

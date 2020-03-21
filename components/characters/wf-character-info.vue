@@ -2,10 +2,10 @@
   <div class="wf-character-info">
     <el-card :class="`box-card e${character.element}`" :shadow="shadow">
       <el-row>
-        <el-col :span="9">
+        <el-col :sm="24" :md="9">
           <el-image :src="character.images.fullShot"></el-image>
         </el-col>
-        <el-col :span="15">
+        <el-col :sm="24" :md="15">
           <el-row>
             <div class="name">
               {{ character.name }}
@@ -121,7 +121,9 @@
             class="next"
           >
             <el-col :span="24">
-              <div class="badge">{{ $tc('ability', index + 1) }}</div>
+              <div class="badge">
+                {{ $tc('ability', index + 1) }}
+              </div>
             </el-col>
             <el-col :span="24">
               <div class="text left">{{ ability.description }}</div>
