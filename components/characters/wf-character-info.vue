@@ -20,7 +20,12 @@
             </el-col>
             <el-col :span="9">
               <div class="text">
-                {{ character.gender }}
+                {{
+                  DeserializeCharacterGender(
+                    character.gender,
+                    character.language
+                  )
+                }}
               </div>
             </el-col>
             <el-col :span="3">
@@ -150,7 +155,8 @@ import Vue from 'vue';
 import {
   CharacterLanguage,
   DeserializeCharacterProfession,
-  DeserializeCharacterElement
+  DeserializeCharacterElement,
+  DeserializeCharacterGender
 } from '@/server/schemas/character';
 
 export default Vue.extend({
@@ -170,6 +176,9 @@ export default Vue.extend({
     },
     DeserializeCharacterElement(n: number, lang: CharacterLanguage) {
       return DeserializeCharacterElement(n, lang);
+    },
+    DeserializeCharacterGender(n: number, lang: CharacterLanguage) {
+      return DeserializeCharacterGender(n, lang);
     }
   }
 });
