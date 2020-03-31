@@ -45,7 +45,16 @@
         width="80"
         align="center"
         header-align="center"
-      ></el-table-column>
+      >
+        <template slot-scope="scope">
+          {{
+            DeserializeCharacterProfession(
+              scope.row.profession,
+              scope.row.language
+            )
+          }}
+        </template>
+      </el-table-column>
       <el-table-column
         prop="races"
         :label="$t('races')"
@@ -53,9 +62,9 @@
         align="center"
         header-align="center"
       >
-        <template slot-scope="scope">{{
-          scope.row.races.map((race) => race.trim()).join(' / ')
-        }}</template>
+        <template slot-scope="scope">
+          {{ scope.row.races.map((race) => race.trim()).join(' / ') }}
+        </template>
       </el-table-column>
       <el-table-column
         prop="cv"
@@ -87,7 +96,10 @@ import Vue, { PropOptions } from 'vue';
 import {
   Character,
   SerializeCharacterElement,
-  DeserializeCharacterElement
+  DeserializeCharacterElement,
+  SerializeCharacterProfession,
+  DeserializeCharacterProfession,
+  CharacterLanguage
 } from '@/server/schemas/character';
 import WFRarity from '@/components/icons/wf-rarity.vue';
 
@@ -101,13 +113,18 @@ export default Vue.extend({
   },
   methods: {
     tableRowClassName(scoped: { row: Character; rowIndex: number }) {
-      return `r${scoped.row.rarity} e${scoped.row.element} p${scoped.row.profession}`;
+      const element = SerializeCharacterElement(scoped.row.element);
+      const profession = SerializeCharacterProfession(scoped.row.profession);
+      return `r${scoped.row.rarity} e${element} p${profession}`;
     },
     tableRowHref(scoped: { row: Character; rowIndex: number }) {
       const element = DeserializeCharacterElement(
         SerializeCharacterElement(scoped.row.element)
       );
       return `/character/${element}/${scoped.row.name}`;
+    },
+    DeserializeCharacterProfession(n: number, lang: CharacterLanguage) {
+      return DeserializeCharacterProfession(n, lang);
     }
   }
 });

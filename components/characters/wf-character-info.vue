@@ -28,7 +28,12 @@
             </el-col>
             <el-col :span="9">
               <div class="text">
-                {{ character.profession }}
+                {{
+                  DeserializeCharacterProfession(
+                    character.profession,
+                    character.language
+                  )
+                }}
               </div>
             </el-col>
           </el-row>
@@ -70,7 +75,12 @@
             </el-col>
             <el-col :span="9">
               <div :class="`text e${character.element}`">
-                {{ character.element }}
+                {{
+                  DeserializeCharacterElement(
+                    character.element,
+                    character.language
+                  )
+                }}
               </div>
             </el-col>
           </el-row>
@@ -137,6 +147,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import {
+  CharacterLanguage,
+  DeserializeCharacterProfession,
+  DeserializeCharacterElement
+} from '@/server/schemas/character';
+
 export default Vue.extend({
   props: {
     character: {
@@ -146,6 +162,14 @@ export default Vue.extend({
     shadow: {
       type: String,
       default: 'never'
+    }
+  },
+  methods: {
+    DeserializeCharacterProfession(n: number, lang: CharacterLanguage) {
+      return DeserializeCharacterProfession(n, lang);
+    },
+    DeserializeCharacterElement(n: number, lang: CharacterLanguage) {
+      return DeserializeCharacterElement(n, lang);
     }
   }
 });
