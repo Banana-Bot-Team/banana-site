@@ -278,7 +278,8 @@ export class Character {
     // Element
     if (
       Validator.Empty.isExist(this.#raw.element) &&
-      Validator.String.isString(this.#raw.element)
+      (Validator.String.isString(this.#raw.element) ||
+        Validator.Number.isNumber(this.#raw.element))
     ) {
       this.element = this.#raw.element;
     }
@@ -329,7 +330,8 @@ export class Character {
     // Profession
     if (
       Validator.Empty.isExist(this.#raw.profession) &&
-      Validator.String.isString(this.#raw.profession)
+      (Validator.String.isString(this.#raw.profession) ||
+        Validator.Number.isNumber(this.#raw.profession))
     ) {
       this.profession = this.#raw.profession;
     }
