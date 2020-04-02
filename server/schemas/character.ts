@@ -308,7 +308,8 @@ export class Character {
     // Gender
     if (
       Validator.Empty.isExist(this.#raw.gender) &&
-      Validator.String.isString(this.#raw.gender)
+      (Validator.String.isString(this.#raw.gender) ||
+        Validator.Number.isNumber(this.#raw.gender))
     ) {
       this.gender = this.#raw.gender;
     }
